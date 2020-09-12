@@ -3,7 +3,6 @@ package renankummer.udemy.springwebapp.model
 import javax.persistence.*
 
 @Entity
-@Table(name = "authors")
 data class Author(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +14,7 @@ data class Author(
         var lastName: String,
 
         @ManyToMany(mappedBy = "authors")
-        var books: Set<Book> = HashSet<Book>()
+        var books: MutableSet<Book> = mutableSetOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

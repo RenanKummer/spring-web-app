@@ -2,10 +2,8 @@ package renankummer.udemy.springwebapp.model
 
 import java.util.*
 import javax.persistence.*
-import kotlin.collections.HashSet
 
 @Entity
-@Table(name = "books")
 data class Book (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,11 +16,14 @@ data class Book (
 
         @ManyToMany
         @JoinTable(
-                name = "authors_books",
-                joinColumns = [ JoinColumn(name = "books_id", nullable = false) ],
-                inverseJoinColumns = [ JoinColumn(name = "authors_id") ]
+                name = "author_book",
+                joinColumns = [ JoinColumn(name = "book_id") ],
+                inverseJoinColumns = [ JoinColumn(name = "author_id") ]
         )
-        var authors: Set<Author> = HashSet<Author>()
+        var authors: MutableSet<Author> = mutableSetOf(),
+
+        @ManyToOne
+        var publisher: Publisher = Publisher()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

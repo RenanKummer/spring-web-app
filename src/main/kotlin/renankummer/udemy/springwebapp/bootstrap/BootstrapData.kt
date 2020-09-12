@@ -22,8 +22,7 @@ class BootstrapData(
     }
 
     override fun run(vararg args: String?) {
-        initializeAuthorsAndBooks()
-        initializePublishers()
+        initializeAuthorsAndBooksAndPublishers()
 
         log.info("Started in Bootstrap @ ${LocalDateTime.now()}")
         log.info("Number of books: ${bookRepository.count()}")
@@ -31,22 +30,7 @@ class BootstrapData(
         log.info("Number of publishers: ${publisherRepository.count()}")
     }
 
-    fun initializeAuthorsAndBooks() {
-        val ericEvans = Author(firstName = "Eric", lastName = "Evans")
-        val domainDrivenDesign = Book(title = "Domain Driven Design")
-        ericEvans.books.plus(domainDrivenDesign)
-        domainDrivenDesign.authors.plus(ericEvans)
-
-        val rodJohnson = Author(firstName = "Rod", lastName = "Johnson")
-        val j2eeDevWithoutEjb = Book(title = "J2EE Development Without EJB")
-        rodJohnson.books.plus(j2eeDevWithoutEjb)
-        j2eeDevWithoutEjb.authors.plus(rodJohnson)
-
-        authorRepository.saveAll(listOf(ericEvans, rodJohnson))
-        bookRepository.saveAll(listOf(domainDrivenDesign, j2eeDevWithoutEjb))
-    }
-
-    fun initializePublishers() {
+    fun initializeAuthorsAndBooksAndPublishers() {
         val kindleDirect = Publisher(
                 name = "Kindle Direct",
                 addressLine1 = "1000 Any St.",
@@ -55,6 +39,24 @@ class BootstrapData(
                 zipCode = "91000000"
         )
 
+        publisherRepository.save(kindleDirect)
+
+        val ericEvans = Author(firstName = "Eric", lastName = "Evans")
+        val domainDrivenDesign = Book(title = "Domain Driven Design")
+        ericEvans.books.add(domainDrivenDesign)
+        domainDrivenDesign.authors.add(ericEvans)
+        domainDrivenDesign.publisher = kindleDirect
+
+        val rodJohnson = Author(firstName = "Rod", lastName = "Johnson")
+        val j2eeDevWithoutEjb = Book(title = "J2EE Development Without EJB")
+        rodJohnson.books.add(j2eeDevWithoutEjb)
+        j2eeDevWithoutEjb.authors.add(rodJohnson)
+        j2eeDevWithoutEjb.publisher = kindleDirect
+
+        kindleDirect.books.addAll(listOf(domainDrivenDesign, j2eeDevWithoutEjb))
+
+        authorRepository.saveAll(listOf(ericEvans, rodJohnson))
+        bookRepository.saveAll(listOf(domainDrivenDesign, j2eeDevWithoutEjb))
         publisherRepository.save(kindleDirect)
     }
 }
