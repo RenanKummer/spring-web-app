@@ -1,14 +1,14 @@
 package renankummer.udemy.springwebapp.bootstrap
 
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
-import renankummer.udemy.springwebapp.logging.logger
-import renankummer.udemy.springwebapp.model.Author
-import renankummer.udemy.springwebapp.model.Book
-import renankummer.udemy.springwebapp.model.Publisher
-import renankummer.udemy.springwebapp.repository.AuthorRepository
-import renankummer.udemy.springwebapp.repository.BookRepository
-import renankummer.udemy.springwebapp.repository.PublisherRepository
+import renankummer.udemy.springwebapp.models.Author
+import renankummer.udemy.springwebapp.models.Book
+import renankummer.udemy.springwebapp.models.Publisher
+import renankummer.udemy.springwebapp.repositories.AuthorRepository
+import renankummer.udemy.springwebapp.repositories.BookRepository
+import renankummer.udemy.springwebapp.repositories.PublisherRepository
 import java.time.LocalDateTime
 
 @Component
@@ -17,9 +17,6 @@ class BootstrapData(
         private val bookRepository: BookRepository,
         private val publisherRepository: PublisherRepository
 ) : CommandLineRunner {
-    companion object {
-        private val log = logger<BootstrapData>()
-    }
 
     override fun run(vararg args: String?) {
         initializeAuthorsAndBooksAndPublishers()
@@ -58,5 +55,10 @@ class BootstrapData(
         authorRepository.saveAll(listOf(ericEvans, rodJohnson))
         bookRepository.saveAll(listOf(domainDrivenDesign, j2eeDevWithoutEjb))
         publisherRepository.save(kindleDirect)
+    }
+
+    companion object {
+        @JvmStatic
+        private val log = LoggerFactory.getLogger(BootstrapData::class.java)
     }
 }

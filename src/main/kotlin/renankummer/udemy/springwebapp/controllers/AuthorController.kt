@@ -1,13 +1,13 @@
-package renankummer.udemy.springwebapp.controller
+package renankummer.udemy.springwebapp.controllers
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
-import renankummer.udemy.springwebapp.repository.AuthorRepository
+import renankummer.udemy.springwebapp.repositories.AuthorRepository
 
 @Controller
-class AuthorController(val authorRepository: AuthorRepository) {
+class AuthorController(private val authorRepository: AuthorRepository) {
 
     @GetMapping("/authors")
     fun getAuthors(model: Model): String {

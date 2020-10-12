@@ -1,6 +1,6 @@
-package renankummer.udemy.springwebapp.repository
+package renankummer.udemy.springwebapp.repositories
 
 import org.springframework.data.jpa.repository.JpaRepository
-import renankummer.udemy.springwebapp.model.Book
+import renankummer.udemy.springwebapp.models.Book
 
 interface BookRepository : JpaRepository<Book, Long>

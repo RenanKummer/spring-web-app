@@ -1,4 +1,4 @@
-package renankummer.udemy.springwebapp.model
+package renankummer.udemy.springwebapp.models
 
 import java.util.*
 import javax.persistence.*
